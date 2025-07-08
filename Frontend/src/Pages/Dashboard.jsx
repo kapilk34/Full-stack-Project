@@ -78,7 +78,7 @@ export default function Dashboard() {
               <Activity size={20} />
               <span>Analytics</span>
             </a>
-            <a href="#" className="flex items-center space-x-3 px-3 py-2 hover:bg-purple-50 text-gray-600 hover:text-green-600 rounded-lg">
+            <a href="/adminDashboard" className="flex items-center space-x-3 px-3 py-2 hover:bg-purple-50 text-gray-600 hover:text-green-600 rounded-lg">
               <ShoppingBag size={20} />
               <span>Manage Products</span>
             </a>
