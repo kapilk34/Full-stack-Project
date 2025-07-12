@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion , AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef(null);
+  const navigate = useNavigate(); // ✅ Move this INSIDE the component
 
+  const handleClick = () => {
+    navigate('/login');
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -20,7 +25,6 @@ const Navbar = () => {
     };
   }, []);
 
-  // Add scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -30,7 +34,7 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { id: 1, name: "Home" , href: "/" },
+    { id: 1, name: "Home", href: "/" },
     { id: 2, name: "Products", href: "/products" },
     { id: 3, name: "About Us", href: "/aboutUs" },
     { id: 4, name: "Contact", href: "/contact" },
@@ -38,8 +42,8 @@ const Navbar = () => {
 
   const mobileMenuVariants = {
     hidden: { opacity: 0, y: -20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: {
         staggerChildren: 0.1,
@@ -56,27 +60,25 @@ const Navbar = () => {
   };
 
   return (
-    <motion.nav 
+    <motion.nav
       ref={navRef}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-md shadow-lg transition-all duration-300 ${
-        scrolled ? "bg-gray-200 shadow-xl" : "bg-gray-200"
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-md shadow-lg transition-all duration-300 ${scrolled ? "bg-gray-200 shadow-xl" : "bg-gray-200"}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.05 }}
             className="text-gray-700 text-2xl font-bold cursor-pointer"
           >
-          <div className="flex flex-row gap-6">
-            <img src="./Logo.png" className="h-12"></img>
-            <p className="mt-2">AkT</p>
-          </div>
+            <div className="flex flex-row gap-6">
+              <img src="./Logo.png" className="h-12" alt="Logo" />
+              <p className="mt-2">AkT</p>
+            </div>
           </motion.div>
-          
+
           <div className="hidden md:flex space-x-6">
             {navItems.map((item) => (
               <motion.a
@@ -89,10 +91,14 @@ const Navbar = () => {
                 {item.name}
               </motion.a>
             ))}
-            <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">Login/Sign
+            <button
+              onClick={handleClick}
+              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+            >
+              Dashboard
             </button>
           </div>
-          
+
           <div className="md:hidden">
             <motion.button
               onClick={() => setIsOpen(!isOpen)}
@@ -117,7 +123,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -137,6 +143,12 @@ const Navbar = () => {
                 {item.name}
               </motion.a>
             ))}
+            <button
+              onClick={handleClick}
+              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+            >
+              Dashboard
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
